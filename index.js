@@ -1,13 +1,43 @@
 const app = require("express")();
 const graphqlHTTP = require("express-graphql");
 const { buildSchema } = require("graphql");
+const request = require("request");
+const { parseString } = require("xml2js");
 
+const URL = "http://www.co.greene.oh.us/RSSFeed.aspx?ModID=63&CID=All-0";
+
+/* Data */
+let data;
+const getAlerts = () => {
+  request(URL, (err, res, body) => {
+    parseString(body, { explicitArray: false }, (parseErr, json) => {
+      data = json.rss.channel;
+      console.log(
+        "Updated data. There are currently " +
+          data.item.length +
+          " alerts in effect."
+      );
+    });
+  });
+};
+setInterval(getAlerts, 900000); // Every 15 mins
+getAlerts();
+
+/* GraphQL */
 const schema = buildSchema(`
+type Item {
+  pubDate: String
+  title: String
+  link: String
+  description: String
+
+}
+
 type Query {
-  hello: String
+  alerts: [Item]
 }
 `);
-const rootValue = { hello: () => "Hello world!" };
+const rootValue = { alerts: () => data.item };
 
 app.use(
   "/",
