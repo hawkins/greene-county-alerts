@@ -1,0 +1,17 @@
+{
+  "name": "greene-county-alerts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hawkins/greene-county-alerts",
+  "author": "Josh Hawkins <hawkinswritescode@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.12.3"
+  }
+}
