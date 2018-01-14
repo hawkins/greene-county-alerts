@@ -1,0 +1,63 @@
+<rss version="2.0">
+  <channel>
+    <title>Greene County, OH - Alert Center</title>
+    <link>http://www.co.greene.oh.us/AlertCenter.aspx</link>
+    <lastBuildDate>Sat, 13 Jan 2018 14:35:10 -0500</lastBuildDate>
+    <description>Greene County, OH - Get the latest alerts</description>
+    <language>en-us</language>
+    <item>
+      <title>Level One Snow Emergency Issued</title>
+      <link>
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=147
+      </link>
+      <pubDate>Sat, 13 Jan 2018 12:01:32 -0500</pubDate>
+      <description>
+        The Greene County Sheriff's Office has issued a Level One Snow Emergency.
+      </description>
+      <guid isPermaLink="false">
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=147/636514380920000000
+      </guid>
+    </item>
+    <item>
+      <title>Level One Snow Emergency Issued</title>
+      <link>http://www.co.greene.oh.us/AlertCenter.aspx?AID=8</link>
+      <pubDate>Sat, 13 Jan 2018 10:58:58 -0500</pubDate>
+      <description>
+        The Greene County Sheriff's Office has issued a Level One Snow Emergency.
+      </description>
+      <guid isPermaLink="false">
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=8/636514343380000000
+      </guid>
+    </item>
+    <item>
+      <title>
+        Animal Control opening at noon on Saturday, Jan 12th
+      </title>
+      <link>
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=146
+      </link>
+      <pubDate>Sat, 13 Jan 2018 10:37:51 -0500</pubDate>
+      <description>
+        Animal Control will be opening two hours later than normal on Saturday, January 12th and will be open from 12pm - 4pm
+      </description>
+      <guid isPermaLink="false">
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=146/636514330710000000
+      </guid>
+    </item>
+    <item>
+      <title>
+        Greene CATS Scheduled Rides Cancelled Today, Saturday, January 13
+      </title>
+      <link>
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=149
+      </link>
+      <pubDate>Sat, 13 Jan 2018 06:07:12 -0500</pubDate>
+      <description>
+        Due to hazardous road conditions all Greene CATS scheduled rides have been cancelled for today, Saturday, January 13. Flex Routes will operate as normally scheduled.
+      </description>
+      <guid isPermaLink="false">
+        http://www.co.greene.oh.us/AlertCenter.aspx?AID=149/636514168320000000
+      </guid>
+    </item>
+  </channel>
+</rss>
