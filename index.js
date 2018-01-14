@@ -9,35 +9,57 @@ const URL = "http://www.co.greene.oh.us/RSSFeed.aspx?ModID=63&CID=All-0";
 /* Data */
 let data;
 const getAlerts = () => {
-  request(URL, (err, res, body) => {
-    parseString(body, { explicitArray: false }, (parseErr, json) => {
-      data = json.rss.channel;
-      console.log(
-        "Updated data. There are currently " +
-          data.item.length +
-          " alerts in effect."
-      );
+  try {
+    request(URL, (err, res, body) => {
+      if (err) throw err;
+
+      parseString(body, { explicitArray: false }, (parseErr, json) => {
+        if (parseErr) throw err;
+
+        data = json.rss.channel;
+        data.date = data.lastBuildDate;
+        data.alerts = data.item ? data.item.slice() : [];
+        delete data.item;
+
+        console.log(
+          "Updated data. There are currently " +
+            data.alerts.length +
+            " alerts in effect."
+        );
+      });
     });
-  });
+  } catch (err) {
+    console.error("Failed to register new alert data:");
+    console.error(err);
+  }
 };
 setInterval(getAlerts, 900000); // Every 15 mins
 getAlerts();
 
 /* GraphQL */
 const schema = buildSchema(`
-type Item {
+type Channel {
+  title
+  link
+  date
+  description
+  language
+  alerts: [Alert]
+}
+
+type Alert {
   pubDate: String
   title: String
   link: String
   description: String
-
 }
 
 type Query {
-  alerts: [Item]
+  alerts: [Alert]
+  channel: Channel
 }
 `);
-const rootValue = { alerts: () => data.item };
+const rootValue = { channel: () => data, alerts: () => data.alerts };
 
 app.use(
   "/",
