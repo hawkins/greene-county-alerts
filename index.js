@@ -39,11 +39,11 @@ getAlerts();
 /* GraphQL */
 const schema = buildSchema(`
 type Channel {
-  title
-  link
-  date
-  description
-  language
+  title: String
+  link: String
+  date: String
+  description: String
+  language: String
   alerts: [Alert]
 }
 
