@@ -15,8 +15,6 @@ import {
   Text,
   View,
   Content,
-  Footer,
-  FooterTab,
   Button,
   Container,
   Left,
@@ -46,7 +44,8 @@ const styles = StyleSheet.create({
     backgroundColor: appColor
   },
   button: {
-    backgroundColor: appColor
+    backgroundColor: appColor,
+    marginTop: 10
   },
   alertCenterLink: {
     color: "#fff"
@@ -112,21 +111,21 @@ const Alerts = graphql(alertsQuery)(props => {
         title: "Level Two Snow Emergency Alert Issued",
         pubDate: "Sat, 13 Jan 2018 10:58:58 -0500",
         description:
-        "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
+          "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       },
       {
         title: "Emergency Snow Alert - Level 2",
         pubDate: "Friday, January 12 at 10:30 PM",
         description:
-        "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       },
       {
         title: "Emergency Snow Alert - Level 3",
         pubDate: "Friday, January 12 at 8:30 PM",
         description:
-        "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       }
     ];
@@ -163,26 +162,20 @@ export default class App extends React.Component {
               <Title>Greene County Alerts</Title>
             </Body>
           </Header>
-
           <Content padder>
             <Alerts />
+            <Button
+              block
+              style={styles.button}
+              onPress={() =>
+                Linking.openURL("http://www.co.greene.oh.us/AlertCenter.aspx")
+              }
+            >
+              <Text style={styles.alertCenterLink}>
+                Tap here to open the Alert Center website
+              </Text>
+            </Button>
           </Content>
-
-          {/* <Footer>
-            <FooterTab>
-              <Button
-                full
-                style={styles.button}
-                onPress={() =>
-                  Linking.openURL("http://www.co.greene.oh.us/AlertCenter.aspx")
-                }
-              >
-                <Text style={styles.alertCenterLink}>
-                  Tap here to open the Alert Center website
-                </Text>
-              </Button>
-            </FooterTab>
-          </Footer> */}
         </Container>
       </ApolloProvider>
     );
