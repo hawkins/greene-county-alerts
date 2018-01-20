@@ -1,10 +1,27 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Linking } from "react-native";
 import { ApolloProvider, graphql } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import gql from "graphql-tag";
+import Expo from "expo";
+import {
+  Header,
+  Body,
+  Title,
+  Card,
+  CardItem,
+  Text,
+  View,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Container,
+  Left,
+  Icon
+} from "native-base";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "https://greene-co-alerts.now.sh" }),
@@ -21,33 +38,55 @@ const alertsQuery = gql`
     }
   }
 `;
-const channelQuery = gql`
-  query {
-    channel {
-      title
-      link
-      date
-      description
-    }
+
+const appColor = "#e67e22";
+const styles = StyleSheet.create({
+  statusBar: {
+    backgroundColor: appColor,
+    height: Expo.Constants.statusBarHeight
+  },
+  header: {
+    width: "100%",
+    backgroundColor: appColor
+  },
+  button: {
+    backgroundColor: appColor
+  },
+  alertCenterLink: {
+    color: "#fff"
+  },
+  meta: {
+    color: "#7f8c8d"
+  },
+  alert: {
+    paddingTop: 10
+  },
+  cardTitle: {
+    color: "#000",
+    fontWeight: "bold"
   }
-`;
+});
 
 const Alert = ({ alert }) => (
-  <View>
-    <Text>{alert.title}</Text>
-    <Text>Posted on {alert.pubDate}</Text>
-    <Text>{alert.description}</Text>
-    <Text>Read more: {alert.link}</Text>
-  </View>
-);
-
-const Channel = ({ channel }) => (
-  <View>
-    <Text>{channel.title}</Text>
-    <Text>Last updated on {channel.date}</Text>
-    <Text>{channel.description}</Text>
-    <Text>{channel.link}</Text>
-  </View>
+  <Card style={styles.alert}>
+    <CardItem header>
+      <Icon name="alert" />
+      <Text style={styles.cardTitle}>{alert.title}</Text>
+    </CardItem>
+    <CardItem>
+      <Text style={styles.meta}>Posted on {alert.pubDate}</Text>
+    </CardItem>
+    <CardItem>
+      <Body>
+        <Text>{alert.description}</Text>
+      </Body>
+    </CardItem>
+    <CardItem footer>
+      <Button transparent info onPress={() => Linking.openURL(alert.link)}>
+        <Text>Tap here to view in Alert Center</Text>
+      </Button>
+    </CardItem>
+  </Card>
 );
 
 const Alerts = graphql(alertsQuery)(props => {
@@ -65,7 +104,7 @@ const Alerts = graphql(alertsQuery)(props => {
     data.refetch();
     return (
       <View>
-        <Text>{data.error}</Text>
+        <Text>{data.error.message}</Text>
       </View>
     );
   }
@@ -74,18 +113,25 @@ const Alerts = graphql(alertsQuery)(props => {
   if (data.alerts.length === 0) {
     data.alerts = [
       {
-        title: "Test 1",
-        pubDate: "A time",
+        title: "Level Two Snow Emergency Alert Issued",
+        pubDate: "Sat, 13 Jan 2018 10:58:58 -0500",
         description:
-          "Long descriptionnnnnnnnnnnnnn nnnnnnnnnn nnnnnnnnnnnn ffffffffff ggggggggg hhhhh",
-        link: "https://josh.hawkins.is"
+          "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
+        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       },
       {
-        title: "Test 2",
-        pubDate: "A time",
+        title: "Emergency Snow Alert - Level 2",
+        pubDate: "Friday, January 12 at 10:30 PM",
         description:
-          "Long descriptionnnnnnnnnnnnnn nnnnnnnnnn nnnnnnnnnnnn ffffffffff ggggggggg hhhhh",
-        link: "https://josh.hawkins.is"
+          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
+      },
+      {
+        title: "Emergency Snow Alert - Level 3",
+        pubDate: "Friday, January 12 at 8:30 PM",
+        description:
+          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       }
     ];
   }
@@ -94,51 +140,55 @@ const Alerts = graphql(alertsQuery)(props => {
     <Alert key={alert.title + alert.pubDate} alert={alert} />
   ));
 });
-const ChannelInfo = graphql(channelQuery)(props => {
-  const { data } = props;
-
-  if (data.loading) {
-    return (
-      <Channel
-        channel={{
-          title: "Greene County, OH - Alert Center",
-          link: "http://www.co.greene.oh.us/AlertCenter.aspx",
-          date: "Sat, 20 Jan 2018 15:36:19 -0500",
-          description: "Greene County, OH - Get the latest alerts"
-        }}
-      />
-    );
-  }
-
-  if (data.error) {
-    data.refetch();
-    return (
-      <View>
-        <Text>{data.error}</Text>
-      </View>
-    );
-  }
-
-  return <Channel channel={props.data.channel} />;
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
 
 export default class App extends React.Component {
+  state = {
+    ready: false
+  };
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ ready: true });
+  }
+
   render() {
+    if (!this.state.ready) {
+      return <Expo.AppLoading />;
+    }
+
     return (
       <ApolloProvider client={client}>
-        <View style={styles.container}>
-          <ChannelInfo />
-          <Alerts />
-        </View>
+        <Container>
+          <View style={styles.statusBar} />
+          <Header key="header" style={styles.header}>
+            <Body>
+              <Title>Greene County Alerts</Title>
+            </Body>
+          </Header>
+
+          <Content padder>
+            <Alerts />
+          </Content>
+
+          <Footer>
+            <FooterTab>
+              <Button
+                full
+                style={styles.button}
+                onPress={() =>
+                  Linking.openURL("http://www.co.greene.oh.us/AlertCenter.aspx")
+                }
+              >
+                <Text style={styles.alertCenterLink}>
+                  Tap here to open the Alert Center website
+                </Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Container>
       </ApolloProvider>
     );
   }
