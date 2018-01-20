@@ -41,10 +41,6 @@ const alertsQuery = gql`
 
 const appColor = "#e67e22";
 const styles = StyleSheet.create({
-  statusBar: {
-    backgroundColor: appColor,
-    height: Expo.Constants.statusBarHeight
-  },
   header: {
     width: "100%",
     backgroundColor: appColor
@@ -116,21 +112,21 @@ const Alerts = graphql(alertsQuery)(props => {
         title: "Level Two Snow Emergency Alert Issued",
         pubDate: "Sat, 13 Jan 2018 10:58:58 -0500",
         description:
-          "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
+        "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       },
       {
         title: "Emergency Snow Alert - Level 2",
         pubDate: "Friday, January 12 at 10:30 PM",
         description:
-          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+        "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       },
       {
         title: "Emergency Snow Alert - Level 3",
         pubDate: "Friday, January 12 at 8:30 PM",
         description:
-          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
+        "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
         link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
       }
     ];
@@ -162,7 +158,6 @@ export default class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Container>
-          <View style={styles.statusBar} />
           <Header key="header" style={styles.header}>
             <Body>
               <Title>Greene County Alerts</Title>
@@ -173,7 +168,7 @@ export default class App extends React.Component {
             <Alerts />
           </Content>
 
-          <Footer>
+          {/* <Footer>
             <FooterTab>
               <Button
                 full
@@ -187,7 +182,7 @@ export default class App extends React.Component {
                 </Text>
               </Button>
             </FooterTab>
-          </Footer>
+          </Footer> */}
         </Container>
       </ApolloProvider>
     );
