@@ -115,9 +115,9 @@ const Alerts = graphql(alertsQuery)(props => {
         <CardItem>
           <Body>
             <Text>
-              There are currently no alerts placed for Greene County at this
-              time. If you're worried about something, it's best to contact the
-              local authorities and double check just to be safe.
+              There are currently no alerts placed for Greene County. If you're
+              concerned about anything, it's best to contact the local
+              authorities and double check just to be safe.
             </Text>
           </Body>
         </CardItem>
