@@ -10,8 +10,16 @@ import Footer from "./src/Footer";
 
 export default class App extends React.Component {
   state = {
-    ready: false
+    ready: false,
+    refetch: () => null
   };
+
+  constructor() {
+    super();
+
+    this.setRefetch = this.setRefetch.bind(this);
+    this.refetch = this.refetch.bind(this);
+  }
 
   async componentWillMount() {
     await Expo.Font.loadAsync({
@@ -19,6 +27,20 @@ export default class App extends React.Component {
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
     this.setState({ ready: true });
+  }
+
+  setRefetch(refetch) {
+    this.setState({ refetch });
+  }
+
+  refetch() {
+    console.log("Refreshing...");
+    this.state.refetch();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.ready) return false;
+    return true;
   }
 
   render() {
@@ -29,9 +51,9 @@ export default class App extends React.Component {
     return (
       <ApolloWrapper>
         <Container>
-          <Header />
+          <Header refetch={this.refetch} />
           <Content padder>
-            <Alerts />
+            <Alerts setRefetch={this.setRefetch} />
             <Footer />
           </Content>
         </Container>

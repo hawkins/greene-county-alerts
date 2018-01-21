@@ -52,14 +52,10 @@ const alertsQuery = gql`
   }
 `;
 
-const RefreshButton = ({ refetch }) => (
-  <Button transparent info onPress={() => refetch()}>
-    <Text>Refresh</Text>
-  </Button>
-);
-
 const Alerts = graphql(alertsQuery)(props => {
   const { data } = props;
+
+  props.setRefetch(data.refetch);
 
   if (data.loading) {
     return (
@@ -74,47 +70,43 @@ const Alerts = graphql(alertsQuery)(props => {
     return (
       <View>
         <Text>{data.error.message}</Text>
-        <RefreshButton refetch={data.refetch} />
       </View>
     );
   }
 
   if (props.data.alerts.length === 0) {
     return (
-      <View>
-        <Card>
-          <CardItem header>
-            <Icon name="partly-sunny" />
-            <Text style={styles.cardTitle}>No alerts active at this time</Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>
-                There are currently no alerts placed for Greene County. If
-                you're concerned about anything, it's best to contact the local
-                authorities and double check just to be safe.
-              </Text>
-            </Body>
-          </CardItem>
-          <CardItem footer>
-            <Button
-              transparent
-              info
-              onPress={() =>
-                Linking.openURL("https://www.co.greene.oh.us/directory.aspx")}
-            >
-              <Text>Contact county services</Text>
-            </Button>
-          </CardItem>
-        </Card>
-        <RefreshButton refetch={data.refetch} />
-      </View>
+      <Card>
+        <CardItem header>
+          <Icon name="partly-sunny" />
+          <Text style={styles.cardTitle}>No alerts active at this time</Text>
+        </CardItem>
+        <CardItem>
+          <Body>
+            <Text>
+              There are currently no alerts placed for Greene County. If you're
+              concerned about anything, it's best to contact the local
+              authorities and double check just to be safe.
+            </Text>
+          </Body>
+        </CardItem>
+        <CardItem footer>
+          <Button
+            transparent
+            info
+            onPress={() =>
+              Linking.openURL("https://www.co.greene.oh.us/directory.aspx")}
+          >
+            <Text>Contact county services</Text>
+          </Button>
+        </CardItem>
+      </Card>
     );
   }
 
-  return props.data.alerts
-    .map(alert => <Alert key={alert.title + alert.pubDate} alert={alert} />)
-    .append(<RefreshButton key="refresh" refetch={data.refetch} />);
+  return props.data.alerts.map(alert => (
+    <Alert key={alert.title + alert.pubDate} alert={alert} />
+  ));
 });
 
 export default Alerts;
