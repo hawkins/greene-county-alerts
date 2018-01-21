@@ -78,7 +78,7 @@ const Alert = ({ alert }) => (
     </CardItem>
     <CardItem footer>
       <Button transparent info onPress={() => Linking.openURL(alert.link)}>
-        <Text>Tap here to view in Alert Center</Text>
+        <Text>View in Alert Center</Text>
       </Button>
     </CardItem>
   </Card>
@@ -104,31 +104,35 @@ const Alerts = graphql(alertsQuery)(props => {
     );
   }
 
-  // DEBUG
-  if (data.alerts.length === 0) {
-    data.alerts = [
-      {
-        title: "Level Two Snow Emergency Alert Issued",
-        pubDate: "Sat, 13 Jan 2018 10:58:58 -0500",
-        description:
-          "The Greene County Sheriff's Office has issued a Level Two Snow Emergency.",
-        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
-      },
-      {
-        title: "Emergency Snow Alert - Level 2",
-        pubDate: "Friday, January 12 at 10:30 PM",
-        description:
-          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
-        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
-      },
-      {
-        title: "Emergency Snow Alert - Level 3",
-        pubDate: "Friday, January 12 at 8:30 PM",
-        description:
-          "Roadways are hazardous with blowing and drifting snow. Only those who feel it is necessary to drive should be out on the roadways. Contact your employer to see if you should report to work. ",
-        link: "http://www.co.greene.oh.us/AlertCenter.aspx?AID=8"
-      }
-    ];
+  if (props.data.alerts.length === 0) {
+    // TODO: Return a pretty "stay safe" notice
+    return (
+      <Card>
+        <CardItem header>
+          <Icon name="partly-sunny" />
+          <Text style={styles.cardTitle}>No alerts active at this time</Text>
+        </CardItem>
+        <CardItem>
+          <Body>
+            <Text>
+              There are currently no alerts placed for Greene County at this
+              time. If you're worried about something, it's best to contact the
+              local authorities and double check just to be safe.
+            </Text>
+          </Body>
+        </CardItem>
+        <CardItem footer>
+          <Button
+            transparent
+            info
+            onPress={() =>
+              Linking.openURL("https://www.co.greene.oh.us/directory.aspx")}
+          >
+            <Text>Contact county services</Text>
+          </Button>
+        </CardItem>
+      </Card>
+    );
   }
 
   return props.data.alerts.map(alert => (
@@ -168,11 +172,10 @@ export default class App extends React.Component {
               block
               style={styles.button}
               onPress={() =>
-                Linking.openURL("http://www.co.greene.oh.us/AlertCenter.aspx")
-              }
+                Linking.openURL("http://www.co.greene.oh.us/AlertCenter.aspx")}
             >
               <Text style={styles.alertCenterLink}>
-                Tap here to open the Alert Center website
+                Open the Alert Center website
               </Text>
             </Button>
           </Content>
