@@ -1,11 +1,21 @@
 {
   "expo": {
+    "name": "Greene Co. Alerts",
+    "version": "1.0.0",
+    "slug": "greene-co-alerts",
     "sdkVersion": "23.0.0",
     "androidStatusBar": {
       "backgroundColor": "#E67E22",
       "barStyle": "light-content"
     },
     "primaryColor": "#E67E22",
-    "githubUrl": "https://github.com/hawkins/greene-county-alerts"
+    "githubUrl": "https://github.com/hawkins/greene-county-alerts",
+    "icon": "./assets/icon.png",
+    "ios": {
+      "bundleIdentifier": "is.hawkins.greene-co-alerts"
+    },
+    "android": {
+      "package": "is.hawkins.greene-co-alerts"
+    }
   }
 }
