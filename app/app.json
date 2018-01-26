@@ -12,16 +12,10 @@
     "githubUrl": "https://github.com/hawkins/greene-county-alerts",
     "icon": "./assets/icon.png",
     "ios": {
-      "bundleIdentifier": "is.hawkins.greene"
+      "bundleIdentifier": "is.hawkins.greenecoalerts"
     },
     "android": {
-      "package": "is.hawkins.greene"
+      "package": "is.hawkins.greenecoalerts"
     }
-  },
-  "ios": {
-    "bundleIdentifier": "is.hawkins.greene"
-  },
-  "android": {
-    "package": "is.hawkins.greene"
   }
 }
