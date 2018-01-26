@@ -34,7 +34,6 @@ export default class App extends React.Component {
   }
 
   refetch() {
-    console.log("Refreshing...");
     this.state.refetch();
   }
 
