@@ -5,8 +5,8 @@ const request = require('request');
 const {parseString} = require('xml2js');
 
 const URLS = {
-  green: 'http://www.co.greene.oh.us/RSSFeed.aspx?ModID=63&CID=All-0',
-  montgomery: 'https://www.daytonohio.gov/RSSFeed.aspx?ModID=63&CID=All-0',
+  Greene: 'http://www.co.greene.oh.us/RSSFeed.aspx?ModID=63&CID=All-0',
+  Montgomery: 'https://www.daytonohio.gov/RSSFeed.aspx?ModID=63&CID=All-0',
 };
 
 /* Data */
@@ -26,9 +26,13 @@ const getAlerts = () => {
 
           data[county] = json.rss.channel;
           data[county].date = data[county].lastBuildDate;
-          data[county].alerts = data[county].item
-            ? data[county].item.slice()
-            : [];
+          if (data[county].item !== undefined) {
+            if (typeof data[county].item === 'object')
+              data[county].alerts = [data[county].item];
+            else if (typeof data[county].item === 'array')
+              data[county].alerts = data[county].item.slice();
+          }
+          if (data[county].alerts === undefined) data[county].alerts = [];
           delete data[county].item;
 
           console.log(
@@ -66,13 +70,18 @@ const schema = buildSchema(`
   }
 
   type Query {
-    alerts: [Alert] channel : Channel
+    alerts(county: String): [Alert]
+    channel(county: String) : Channel
   }
 `);
 const rootValue = {
-  channel: () => data['greene'], // TODO: Make this query dynamic
-  alerts: () => {
-    // TODO: Make this query also check for county and be specific if provided
+  channel: ({county}) => data[county],
+  alerts: ({county}) => {
+    // TODO: Proper error?
+    if (county !== undefined && data[county] === undefined) return [];
+
+    if (county !== undefined) return data[county].alerts;
+
     return [].concat.apply(
       [],
       Object.keys(data).map(county => data[county].alerts),
